@@ -3,7 +3,7 @@ const express = require("express");
 const db = require("./data/dbConfig.js");
 const router = express.Router();
 
-// get
+// get - WORKS
 router.get("/", (req, res) => {
   db.select("*")
     .from("accounts")
@@ -15,12 +15,11 @@ router.get("/", (req, res) => {
     });
 });
 
-// get by id
+// get by id - WORKS
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
-  db.select("*")
-    .from("accounts")
+  db("accounts")
     .where({ id })
     .then(account => {
       if (account[0]) {
@@ -34,11 +33,12 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// post
+// post - WORKS
 router.post("/", (req, res) => {
   const accountData = req.body;
 
-  db.insert(accountData)
+  db("accounts")
+    .insert(accountData)
     .into("accounts")
     .then(account => {
       res.status(201).json(account);
@@ -48,7 +48,7 @@ router.post("/", (req, res) => {
     });
 });
 
-// put
+// put - WORKS
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const changes = req.body;
@@ -68,7 +68,7 @@ router.put("/:id", (req, res) => {
     });
 });
 
-// delete
+// delete - WORKS
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
 
